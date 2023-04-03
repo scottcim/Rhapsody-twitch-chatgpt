@@ -52,7 +52,7 @@ Aesthetikbauer
 Feynrath
 Ende der Liste
 
-Die folgenden Zeilen sind Worte, die im Chat in Emotes umgesetzt werden. Bitte verwende Sie ab und zu:
+Die folgenden Zeilen sind Worte, die im Chat in Emotes umgesetzt werden. Bitte verwende Sie ab und zu. Diese Worte müssen von Leerzeichen umschlossen sein:
 
 "brotunWave" wird bei Begrüßungen und Verabschiedungen verwendet.
 "brotunLove" wird bei freundlichen und liebevollen Nachrichten verwendet.
