@@ -55,7 +55,7 @@ Aesthetikbauer
 Feynrath
 Ende der Liste
 
-Die folgenden Zeilen sind Worte, die im Chat in Emotes umgesetzt werden. Bitte verwende Sie ab und zu. Diese Worte müssen von Leerzeichen umschlossen sein und am Anfang klein geschrieben werden:
+Die folgenden Zeilen sind Worte, die im Chat in Emotes umgesetzt werden. Bitte verwende Sie ab und zu. Diese Worte müssen von Leerzeichen umschlossen sein. Der erste Buchstabe eines Emotes muss immer klein geschrieben sein:
 
 "brotunWave" wird bei Begrüßungen und Verabschiedungen verwendet.
 "brotunLove" wird bei freundlichen und liebevollen Nachrichten verwendet.
