@@ -75,7 +75,7 @@ app.get('/gpt/:text', async (req, res) => {
         model: "gpt-3.5-turbo",
         messages: messages,
         temperature: 0.5,
-        max_tokens: 128,
+        max_tokens: 256,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
@@ -96,8 +96,7 @@ app.get('/gpt/:text', async (req, res) => {
           {role: "system", content: "ContextFile"},
           {role: "user", content: text},
           {role: "assistant", content: assistant_response},
-          {role: "system", content: "Reflektiere deine vorherige Antwort und erfülle dabei die Anfrage des Users."},
-          {role: "user", content: "Hast du die ursprünglichen Anforderungen erfüllt? Erkläre warum du die Anforderungen erfüllt oder nicht erfüllt hast."},
+          {role: "system", content: "Hast du die ursprünglichen Anforderungen erfüllt? Falls ja, gebe die Antwort nochmals unverändert wieder. Falls nein, verbessere Deine Antwort, so dass Sie alle Anforderungen erfüllt und gib diese verbesserte Antwort zurück."},
         ]
         //context
         fs.readFile("./file_context.txt", 'utf8', function(err, data) {
@@ -110,7 +109,7 @@ app.get('/gpt/:text', async (req, res) => {
           model: "gpt-3.5-turbo",
           messages: reflection_history,
           temperature: 0.5,
-          max_tokens: 128,
+          max_tokens: 256,
           top_p: 1,
           frequency_penalty: 0,
           presence_penalty: 0,
