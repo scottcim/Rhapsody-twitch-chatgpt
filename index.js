@@ -97,7 +97,7 @@ app.get('/gpt/:text', async (req, res) => {
           {role: "user", content: text},
           {role: "assistant", content: assistant_response},
           {role: "system", content: "Dies sind die Regeln für das Reflektieren deiner eigenen Antworten: Deine Antworten dürfen nicht länger als 300 Zeichen lang sein. Erwähne nicht, dass du deine vorherige Antwort reflektierst oder reflektiert hast."},
-          {role: "user", content: "Reflektiere deine vorhergehende Antwort und verbessere Sie. "},
+          {role: "user", content: "Überprüfe deine vorherige Antwort auf die ursprünglichen Anforderungen und überarbeite gegebenenfalls deine Antwort um alle Anforderungen bestmöglich zu erfüllen. Antworte nur mit der überarbeiteten Antwort."},
         ]
         //context
         fs.readFile("./file_context.txt", 'utf8', function(err, data) {
