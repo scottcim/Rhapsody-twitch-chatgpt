@@ -96,6 +96,7 @@ app.get('/gpt/:text', async (req, res) => {
           {role: "system", content: "ContextFile"},
           {role: "user", content: text},
           {role: "assistant", content: assistant_response},
+          {role: "system", content: "Reflektiere deine vorherige Antwort und erfülle dabei die Anfrage des Users."},
           {role: "user", content: "Hast du die ursprünglichen Anforderungen erfüllt? Erkläre warum du die Anforderungen erfüllt oder nicht erfüllt hast."},
         ]
         //context
