@@ -96,7 +96,8 @@ app.get('/gpt/:text', async (req, res) => {
           {role: "system", content: "ContextFile"},
           {role: "user", content: text},
           {role: "assistant", content: assistant_response},
-          {role: "system", content: "Hast du die ursprünglichen Anforderungen erfüllt? Falls ja, gebe die Antwort nochmals unverändert wieder. Falls nein, verbessere Deine Antwort, so dass Sie alle Anforderungen erfüllt und gib diese verbesserte Antwort zurück."},
+          {role: "system", content: "Überprüfe ob deine vorherige Antwort alle Anforderungen erfüllt. Falls nicht, verbessere deine Antwort."},
+          {role: "system", content: "Gib nur die bessere Antwort aus und erkläre nicht dein Vorgehen."},
         ]
         //context
         fs.readFile("./file_context.txt", 'utf8', function(err, data) {
