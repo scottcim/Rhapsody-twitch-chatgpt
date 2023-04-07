@@ -44,7 +44,7 @@ if (process.env.GPT_MODE === "CHAT"){
 
 app.get('/gpt/:text', async (req, res) => {
     
-    //The agent should recieve Username:Message in the text to identify conversations with different users in his history. 
+    //The assistant should recieve Username:Message in the text to identify conversations with different users in his history. 
     
     const text = req.params.text
     const { Configuration, OpenAIApi } = require("openai");
@@ -63,7 +63,7 @@ app.get('/gpt/:text', async (req, res) => {
       //Check if message history is exceeded
       console.log("Conversations in History: " + ((messages.length / 2) -1) + "/" + process.env.HISTORY_LENGTH)
       if(messages.length > ((process.env.HISTORY_LENGTH * 2) + 1)) {
-          console.log('Message amount in history exceeded. Removing oldest user and agent messages.')
+          console.log('Message amount in history exceeded. Removing oldest user and assistant messages.')
           messages.splice(1,2)
      }
     
@@ -82,10 +82,10 @@ app.get('/gpt/:text', async (req, res) => {
       });
     
       if (response.data.choices) {
-        let agent_response = response.data.choices[0].message.content
+        let assistant_response = response.data.choices[0].message.content
 
-        console.log ("Agent answer: " + agent_response)
-        messages.push({role: "assistant", content: agent_response})
+        console.log ("assistant answer: " + assistant_response)
+        messages.push({role: "assistant", content: assistant_response})
 
         //Enter Reflection
 
@@ -95,14 +95,14 @@ app.get('/gpt/:text', async (req, res) => {
         let reflection_history = [
           {role: "system", content: "ContextFile"},
           {role: "user", content: text},
-          {role: "agent", content: agent_response},
+          {role: "assistant", content: assistant_response},
           {role: "system", content: "Dies sind die Regeln für das Reflektieren deiner eigenen Antworten: Deine Antworten dürfen nicht länger als 300 Zeichen lang sein. Erwähne nicht, dass du deine vorherige Antwort reflektierst oder reflektiert hast."},
           {role: "user", content: "Reflektiere deine vorhergehende Antwort und verbessere Sie. "},
         ]
         //context
         fs.readFile("./file_context.txt", 'utf8', function(err, data) {
           if (err) throw err;
-          console.log("Reading context file and adding it as system level message for the agent.")
+          console.log("Reading context file and adding it as system level message for the assistant.")
           reflection_history[0].content = data;
         });
 
@@ -116,8 +116,8 @@ app.get('/gpt/:text', async (req, res) => {
           presence_penalty: 0,
         });
         if (reflection.data.choices) {
-          console.log("Reflected Agent answer:" + reflection.data.choices[0].message.content)
-          agent_response = reflection.data.choices[0].message.content
+          console.log("Reflected assistant answer:" + reflection.data.choices[0].message.content)
+          assistant_response = reflection.data.choices[0].message.content
           
 
         } else {
@@ -125,7 +125,7 @@ app.get('/gpt/:text', async (req, res) => {
         }
         
         //system reflection message
-        //final agent answer
+        //final assistant answer
         //check for requirements up to 3 times
         //return to reflection if requirements are not met
         //else send answer
@@ -133,7 +133,7 @@ app.get('/gpt/:text', async (req, res) => {
 
 
 
-        res.send(agent_response)
+        res.send(assistant_response)
       } else {
         res.send("Something went wrong. Try again later!")
       }
