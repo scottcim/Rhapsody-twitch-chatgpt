@@ -123,14 +123,6 @@ app.get('/gpt/:text', async (req, res) => {
         } else {
           res.send("Something in the reflection went wrong. Try again later!")
         }
-        
-        //system reflection message
-        //final assistant answer
-        //check for requirements up to 3 times
-        //return to reflection if requirements are not met
-        //else send answer
-
-
 
 
         res.send(assistant_response)
