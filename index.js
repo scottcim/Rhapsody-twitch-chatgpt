@@ -87,12 +87,51 @@ app.get('/gpt/:text', async (req, res) => {
         console.log ("Agent answer: " + agent_response)
         messages.push({role: "assistant", content: agent_response})
 
-        //Check for Twitch max. chat message length limit and slice if needed
-        if(agent_response.length > 399){
-          console.log("Agent answer exceeds twitch chat limit. Slicing to first 399 characters.")
-          agent_response = agent_response.substring(0, 399)
-          console.log ("Sliced agent answer: " + agent_response)
+        //Enter Reflection
+
+        // Create new Message history for reflections
+        
+
+        let reflection_history = [
+          {role: "system", content: "ContextFile"},
+          {role: "user", content: text},
+          {role: "agent", content: agent_response},
+          {role: "system", content: "Dies sind die Regeln für das Reflektieren deiner eigenen Antworten: Deine Antworten dürfen nicht länger als 300 Zeichen lang sein. Erwähne nicht, dass du deine vorherige Antwort reflektierst oder reflektiert hast."},
+          {role: "user", content: "Reflektiere deine vorhergehende Antwort und verbessere Sie. "},
+        ]
+        //context
+        fs.readFile("./file_context.txt", 'utf8', function(err, data) {
+          if (err) throw err;
+          console.log("Reading context file and adding it as system level message for the agent.")
+          reflection_history[0].content = data;
+        });
+
+        const reflection = await openai.createChatCompletion({
+          model: "gpt-3.5-turbo",
+          messages: reflection_history,
+          temperature: 0.5,
+          max_tokens: 128,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+        });
+        if (reflection.data.choices) {
+          console.log("Reflected Agent answer:" + reflection.data.choices[0].message.content)
+          agent_response = reflection.data.choices[0].message.content
+          
+
+        } else {
+          res.send("Something in the reflection went wrong. Try again later!")
         }
+        
+        //system reflection message
+        //final agent answer
+        //check for requirements up to 3 times
+        //return to reflection if requirements are not met
+        //else send answer
+
+
+
 
         res.send(agent_response)
       } else {
