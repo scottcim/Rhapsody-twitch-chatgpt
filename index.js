@@ -4,7 +4,48 @@ const app = express()
 const fs = require('fs');
 const { promisify } = require('util')
 const readFile = promisify(fs.readFile)
+const ChatGPT = require('ChatGPT.js')
+
+
 const GPT_MODE = process.env.GPT_MODE
+const CHATBOT_MODE = process.env.CHATBOT_MODE
+const TWITCH_OAUTH = process.env.TWITCH_OAUTH
+const TWITCH_CHANNEL = process.env.TWITCH_CHANNEL
+const TWITCH_BOTNAME = process.env.TWITCH_BOTNAME
+const REFLECTIONS = process.env.REFLECTIONS
+
+
+
+const tmi = require('tmi.js');
+
+
+if (CHATBOT_MODE == "STANDALONE"){
+  const client = new tmi.Client({
+    options: { debug: true },
+    identity: {
+      username: TWITCH_BOTNAME,
+      password: TWITCH_OAUTH
+    },
+    channels: [ TWITCH_CHANNEL ]
+  });
+  
+  client.connect();
+  
+  client.on('message', (channel, tags, message, self) => {
+    // Ignore echoed messages.
+    if(self) return;
+  
+    if(message.toLowerCase() === '@' + TWITCH_BOTNAME) {
+      // "@alca, heya!"
+      client.say(channel, `@${tags.username}, heya!`);
+    }
+  });
+
+}
+
+
+
+
 
 let file_context = "You are a helpful Twitch Chatbot."
 
