@@ -10,4 +10,5 @@ The streamer is called: plaidcat0
 The streamer's pronouns are: she/her
 The stream currency is called: Coffee
 
-Please answer now the prompt of the viewer and limit your reponse tno more than 400 characters:
+Create a very short summary that uses 30 completion_tokens or less…
+Please answer now the prompt of the viewer:
